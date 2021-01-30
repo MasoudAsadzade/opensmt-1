@@ -1,3 +1,4 @@
+;test masoud
 ; This is an example
 
 (set-info :bar "foo \"bar quux")
