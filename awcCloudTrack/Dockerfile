@@ -28,11 +28,9 @@ RUN apt-get update \
 RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
 RUN  sh opensmt-1/awcCloudTrack/make_opensmt.sh
 
-ADD make_combined_hostfile.py supervised-scripts/make_combined_hostfile.py
-RUN chmod 755 supervised-scripts/make_combined_hostfile.py
-RUN chmod 777 supervised-scripts
-ADD mpi-run.sh supervised-scripts/mpi-run.sh
-RUN chmod 755 supervised-scripts/mpi-run.sh
+RUN chmod 755 opensmt-1/awcCloudTrack/make_combined_hostfile.py
+RUN chmod 777 opensmt-1/awcCloudTrack
+RUN chmod 755 opensmt-1/awcCloudTrack/mpi-run.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opensmt/.ssh/sshd_config"]
 RUN sleep 90000000;

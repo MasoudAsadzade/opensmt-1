@@ -58,7 +58,9 @@ wait_for_nodes () {
   python3 supervised-scripts/make_combined_hostfile.py ${ip}
   cat /home/supervised-scripts/combined_hostfile
   time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile /home/opensmt/build/opensmt
-
+cd ../regression && ./run-test-notiming.sh ../build/src/bin/opensmt;
+    cd ../regression_itp && ./run-tests.sh ../build/src/bin/opensmt;
+    cd ../regression_splitting && ./bin/run-tests.sh ../build/src/bin/opensmt;
 }
 
 # Fetch and run a script
