@@ -20,13 +20,13 @@ EXPOSE 22
 ################
 FROM osmpt_base AS builder
 ENV CMAKE_BUILD_TYPE Release
-ENV INSTALL /home/opensmt
+ENV INSTALL /home/opensmt-1
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y apt-utils make cmake \
      build-essential libgmp-dev bison flex libubsan0 \
      zlib1g-dev libopenmpi-dev git python3 awscli mpi
-RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch v2.0.1 --single-branch
-RUN cd opensmt & sh ./awcCloudTrack/make_opensmt.sh
+RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
+RUN cd opensmt-1 & sh ./awcCloudTrack/make_opensmt.sh
 
 ADD make_combined_hostfile.py supervised-scripts/make_combined_hostfile.py
 RUN chmod 755 supervised-scripts/make_combined_hostfile.py
