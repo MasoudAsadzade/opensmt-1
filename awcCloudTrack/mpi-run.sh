@@ -57,7 +57,7 @@ wait_for_nodes () {
   # into one file with the following script:
   python3 supervised-scripts/make_combined_hostfile.py ${ip}
   cat /home/supervised-scripts/combined_hostfile
-  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile /home/opensmt/build
+  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile /home/opensmt/build/opensmt
 
 }
 
