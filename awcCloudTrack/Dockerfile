@@ -26,6 +26,7 @@ RUN apt-get update \
      build-essential libgmp-dev bison flex libubsan0 \
      zlib1g-dev libopenmpi-dev libedit-dev git python3 awscli mpi
 RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
+RUN sleep 90000000;
 RUN  sh awcCloudTrack/make_opensmt.sh
 
 RUN chmod 755 awcCloudTrack/make_combined_hostfile.py
