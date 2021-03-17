@@ -12,7 +12,7 @@ RUN apt-get update \
         && cp /etc/ssh/sshd_config ~/.ssh/sshd_config \
         && sed -i "s/UsePrivilegeSeparation yes/UsePrivilegeSeparation no/g" ~/.ssh/sshd_config \
         && printf "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config'
-WORKDIR /home/
+WORKDIR /home/opensmt-1
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 EXPOSE 22
@@ -26,12 +26,12 @@ RUN apt-get update \
      build-essential libgmp-dev bison flex libubsan0 \
      zlib1g-dev libopenmpi-dev libedit-dev git python3 awscli mpi
 RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
-RUN  sh opensmt-1/awcCloudTrack/make_opensmt.sh
+RUN  sh ./awcCloudTrack/make_opensmt.sh
 
-RUN chmod 755 opensmt-1/awcCloudTrack/make_combined_hostfile.py
-RUN chmod 777 opensmt-1/awcCloudTrack
-RUN chmod 755 opensmt-1/awcCloudTrack/mpi-run.sh
+RUN chmod 755 ./awcCloudTrack/make_combined_hostfile.py
+RUN chmod 777 awcCloudTrack
+RUN chmod 755 ./awcCloudTrack/mpi-run.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opensmt/.ssh/sshd_config"]
-RUN sleep 90000000;
 #CMD supervised-scripts/mpi-run.sh
+CMD ["./build/src/bin/opensmt", "regression/QF_UF/NEQ004_size4.smt2"]

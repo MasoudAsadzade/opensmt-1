@@ -55,12 +55,10 @@ wait_for_nodes () {
 
   # All of the hosts report their IP and number of processors. Combine all these
   # into one file with the following script:
-  python3 supervised-scripts/make_combined_hostfile.py ${ip}
-  cat /home/supervised-scripts/combined_hostfile
-  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile /home/opensmt/build/opensmt
-cd ../regression && ./run-test-notiming.sh ../build/src/bin/opensmt;
-    cd ../regression_itp && ./run-tests.sh ../build/src/bin/opensmt;
-    cd ../regression_splitting && ./bin/run-tests.sh ../build/src/bin/opensmt;
+  python3 awcCloudTrack/make_combined_hostfile.py ${ip}
+  cat awcCloudTrack/combined_hostfile
+  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile awcCloudTrack/combined_hostfile awcCloudTrack/build/src/bin/opensmt
+
 }
 
 # Fetch and run a script
