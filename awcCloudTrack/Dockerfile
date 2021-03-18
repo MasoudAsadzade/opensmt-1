@@ -28,10 +28,11 @@ RUN apt-get update \
 RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
 RUN sh opensmt-1/awcCloudTrack/make_opensmt.sh
 
-RUN chmod 755 awcCloudTrack/make_combined_hostfile.py
-RUN chmod 777 awcCloudTrack
-RUN chmod 755 awcCloudTrack/mpi-run.sh
+RUN chmod 755 opensmt-1/awcCloudTrack/make_combined_hostfile.py
+RUN chmod 777 opensmt-1/awcCloudTrack
+RUN chmod 755 opensmt-1/awcCloudTrack/mpi-run.sh
+RUN chmod 755 opensmt-1/awcCloudTrack/run_aws_client.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opensmt/.ssh/sshd_config"]
 #CMD supervised-scripts/mpi-run.sh
-CMD ["./build/src/bin/opensmt", "regression/QF_UF/NEQ004_size4.smt2"]
+CMD ["./opensmt-1/build/src/bin/opensmt", "opensmt-1/regression/QF_UF/NEQ004_size4.smt2"]

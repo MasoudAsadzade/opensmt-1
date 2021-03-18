@@ -57,8 +57,8 @@ wait_for_nodes () {
   # into one file with the following script:
   python3 awcCloudTrack/make_combined_hostfile.py ${ip}
   cat awcCloudTrack/combined_hostfile
-  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile awcCloudTrack/combined_hostfile awcCloudTrack/build/src/bin/opensmt
 
+  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile awcCloudTrack/combined_hostfile opensmt-1/awcCloudTrack/run_aws_osmt.sh "opensmt-1/hpcClusterBenchs"
 }
 
 # Fetch and run a script
