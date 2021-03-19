@@ -18,21 +18,21 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 EXPOSE 22
 
 ################
-FROM osmpt_base AS builder
+FROM ubuntu:20.04 AS builder
 ENV CMAKE_BUILD_TYPE Release
-ENV INSTALL /home/opensmt-1
+#ENV INSTALL /home/opensmt-1
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y apt-utils make cmake \
          build-essential libgmp-dev bison flex libubsan0 \
      zlib1g-dev libopenmpi-dev libedit-dev git
 RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
 RUN cd opensmt-1 && sh ./awcCloudTrack/awsRunBatch/make_opensmt.sh
-RUN sleep 9000000
+
 ################
 FROM osmpt_base
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y awscli python3 mpi
-COPY --from=builder /build/src/bin/opensmt /build/src/bin/opensmt
+COPY --from=builder /opensmt-1/build/src/bin/opensmt /opensmt-1/build/src/bin/opensmt
 ADD awsRunBatch/make_combined_hostfile.py supervised-scripts/make_combined_hostfile.py
 ADD awsRunBatch/mpi-run.sh supervised-scripts/mpi-run.sh
 ADD awsRunBatch/run_aws_osmt.sh run_aws_osmt.sh
