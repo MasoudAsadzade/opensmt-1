@@ -33,6 +33,8 @@ FROM osmpt_base
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y awscli python3 mpi
 COPY --from=builder /opensmt-1/build/src/bin/opensmt /opensmt-1/build/src/bin/opensmt
+ADD hpcClusterBenchs hpcClusterBenchs
+ADD regression/QF_UF/NEQ004_size4.smt2 NEQ004_size4.smt2
 ADD awcCloudTrack/awsRunBatch/make_combined_hostfile.py supervised-scripts/make_combined_hostfile.py
 ADD awcCloudTrack/awsRunBatch/mpi-run.sh supervised-scripts/mpi-run.sh
 ADD awcCloudTrack/awsRunBatch/run_aws_osmt.sh run_aws_osmt.sh
@@ -43,5 +45,5 @@ RUN chmod 755 run_aws_osmt.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opsmt/.ssh/sshd_config"]
 #CMD supervised-scripts/mpi-run.sh
-RUN sleep 9000000
-#CMD ["/build/src/bin/opensmt", "/opensmt-1/regression/QF_UF/NEQ004_size4.smt2"]
+#RUN sleep 9000000
+CMD ["/opensmt-1/build/src/bin/opensmt", "NEQ004_size4.smt2"]
