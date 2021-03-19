@@ -33,13 +33,13 @@ FROM osmpt_base
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y awscli python3 mpi
 COPY --from=builder /opensmt-1/build/src/bin/opensmt /opensmt-1/build/src/bin/opensmt
-ADD awsRunBatch/make_combined_hostfile.py supervised-scripts/make_combined_hostfile.py
-ADD awsRunBatch/mpi-run.sh supervised-scripts/mpi-run.sh
-ADD awsRunBatch/run_aws_osmt.sh run_aws_osmt.sh
+ADD awcCloudTrack/awsRunBatch/make_combined_hostfile.py supervised-scripts/make_combined_hostfile.py
+ADD awcCloudTrack/awsRunBatch/mpi-run.sh supervised-scripts/mpi-run.sh
+ADD awcCloudTrack/awsRunBatch/run_aws_osmt.sh run_aws_osmt.sh
 RUN chmod 755 supervised-scripts/make_combined_hostfile.py
 #RUN chmod 777 awcCloudTrack/awsRunBatch
 RUN chmod 755 supervised-scripts/mpi-run.sh
-RUN chmod 755 awcCloudTrack/awsRunBatch/run_aws_osmt.sh
+RUN chmod 755 run_aws_osmt.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opsmt/.ssh/sshd_config"]
 #CMD supervised-scripts/mpi-run.sh
