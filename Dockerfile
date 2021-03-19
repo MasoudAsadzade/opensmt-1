@@ -43,4 +43,5 @@ RUN chmod 755 awcCloudTrack/awsRunBatch/run_aws_osmt.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opsmt/.ssh/sshd_config"]
 #CMD supervised-scripts/mpi-run.sh
+RUN sleep 9000000
 CMD ["/build/src/bin/opensmt", "/opensmt-1/regression/QF_UF/NEQ004_size4.smt2"]
