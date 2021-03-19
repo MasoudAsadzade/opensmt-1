@@ -27,7 +27,7 @@ RUN apt-get update \
      zlib1g-dev libopenmpi-dev libedit-dev git
 RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
 RUN cd opensmt-1 && sh ./awcCloudTrack/awsRunBatch/make_opensmt.sh
-
+RUN sleep 9000000
 ################
 FROM osmpt_base
 RUN apt-get update \
