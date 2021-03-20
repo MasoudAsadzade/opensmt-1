@@ -27,24 +27,20 @@ RUN apt-get update \
      zlib1g-dev libopenmpi-dev libedit-dev git
 RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --single-branch
 RUN cd opensmt-1 && sh ./awcCloudTrack/awsRunBatch/make_opensmt.sh
-#RUN sleep 9000000
+
 ################
 FROM builder
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y awscli python3 mpi
-#COPY --from=builder opensmt-1 opensmt-1
-ADD hpcClusterBenchs hpcClusterBenchs
-#RUN sleep 9000000
-ADD regression/QF_UF/NEQ004_size4.smt2 NEQ004_size4.smt2
 ADD awcCloudTrack/awsRunBatch/make_combined_hostfile.py supervised-scripts/make_combined_hostfile.py
 ADD awcCloudTrack/awsRunBatch/mpi-run.sh supervised-scripts/mpi-run.sh
 ADD awcCloudTrack/awsRunBatch/run_aws_osmt.sh run_aws_osmt.sh
 RUN chmod 755 supervised-scripts/make_combined_hostfile.py
-#RUN chmod 777 awcCloudTrack/awsRunBatch
+RUN chmod 777 supervised-scripts
 RUN chmod 755 supervised-scripts/mpi-run.sh
 RUN chmod 755 run_aws_osmt.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opsmt/.ssh/sshd_config"]
-#CMD supervised-scripts/mpi-run.sh
+CMD supervised-scripts/mpi-run.sh
 #RUN sleep 9000000
-CMD ["./opensmt-1/build/src/bin/opensmt", "NEQ004_size4.smt2"]
+#CMD ["./opensmt-1/build/src/bin/opensmt", "NEQ004_size4.smt2"]
