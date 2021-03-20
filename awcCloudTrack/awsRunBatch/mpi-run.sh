@@ -11,17 +11,6 @@ HOST_FILE_PATH="/tmp/hostfile"
 #tar -xvf $SCRATCH_DIR/*.tar.gz -C $SCRATCH_DIR
 
 sleep 2
-echo main node: ${AWS_BATCH_JOB_MAIN_NODE_INDEX}
-echo this node: ${AWS_BATCH_JOB_NODE_INDEX}
-echo Downloading problem from S3: ${COMP_S3_PROBLEM_PATH}
-
-if [[ "${COMP_S3_PROBLEM_PATH}" == *".xz" ]];
-then
-  aws s3 cp s3://${S3_BKT}/${COMP_S3_PROBLEM_PATH} test.cnf.xz
-  unxz test.cnf.xz
-else
-  aws s3 cp s3://${S3_BKT}/${COMP_S3_PROBLEM_PATH} test.cnf
-fi
 
 # Set child by default switch to main if on main node container
 NODE_TYPE="child"
@@ -100,3 +89,4 @@ case $NODE_TYPE in
     log $NODE_TYPE
     usage "Could not determine node type. Expected (main/child)"
     ;;
+esac
