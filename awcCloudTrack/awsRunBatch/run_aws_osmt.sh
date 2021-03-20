@@ -1,15 +1,12 @@
-#!/bin/bash
+  #!/bin/bash
 
 if [ $# != 1 ]; then
     echo "Usage: $0 <provide shared bucket dir>"
     exit 1
 fi
-for entry in "$1"/*
-do
-  echo $'\n'
-  echo "$entry"
-  time ./../build/src/bin/opensmt $entry
-done
 
-
-
+#for folder in "$1"/*; do
+  #  for file in "$folder"/*/*; do
+      ./build/src/bin/opensmt $1
+ #   done
+#done
