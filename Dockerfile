@@ -32,7 +32,7 @@ RUN cd opensmt-1 && sh ./awcCloudTrack/awsRunBatch/make_opensmt.sh
 FROM builder
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y awscli python3 mpi
-COPY --from=builder opensmt-1 opensmt-1
+#COPY --from=builder opensmt-1 opensmt-1
 ADD hpcClusterBenchs hpcClusterBenchs
 #RUN sleep 9000000
 ADD regression/QF_UF/NEQ004_size4.smt2 NEQ004_size4.smt2
