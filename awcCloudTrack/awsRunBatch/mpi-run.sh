@@ -28,7 +28,7 @@ wait_for_nodes () {
   availablecores=$(nproc)
   log "master details -> $ip:$availablecores"
   log "main IP: $ip"
-
+  AWS_BATCH_JOB_NUM_NODES=2
 #  echo "$ip slots=$availablecores" >> $HOST_FILE_PATH
   echo "$ip" >> $HOST_FILE_PATH
   lines=$(ls -dq /tmp/hostfile* | wc -l)
@@ -45,6 +45,7 @@ wait_for_nodes () {
   # All of the hosts report their IP and number of processors. Combine all these
   # into one file with the following script:
   python3 supervised-scripts/make_combined_hostfile.py ${ip}
+  echo "combined_hostfile:"
   cat supervised-scripts/combined_hostfile
 
   time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile run_aws_osmt.sh "regression/QF_UF/iso_brn029_simplified_1b.smt2"
