@@ -44,7 +44,7 @@ wait_for_nodes () {
   echo "$ip" >> $HOST_FILE_PATH
   lines=$(ls -dq /tmp/hostfile* | wc -l)
   echo "lines:"
-  echo lines
+  echo ${lines}
   while [ "${AWS_BATCH_JOB_NUM_NODES}" -gt "${lines}" ]
   do
     cat /etc/hostfile
@@ -63,7 +63,7 @@ wait_for_nodes () {
   cat supervised-scripts/combined_hostfile
   echo "reachhere-s"
   sleep 2
-  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile run_aws_osmt.sh "regression/QF_UF/iso_brn029_simplified_1b.smt2"
+  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np 2 --hostfile supervised-scripts/combined_hostfile run_aws_osmt.sh "regression/QF_UF/iso_brn029_simplified_1b.smt2"
   echo "reachhere-e"
   #time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile run_aws_osmt.sh "hpcClusterBenchs"
 }
