@@ -11,6 +11,17 @@ HOST_FILE_PATH="/tmp/hostfile"
 #tar -xvf $SCRATCH_DIR/*.tar.gz -C $SCRATCH_DIR
 
 sleep 2
+echo main node: ${AWS_BATCH_JOB_MAIN_NODE_INDEX}
+echo this node: ${AWS_BATCH_JOB_NODE_INDEX}
+echo Downloading problem from S3: ${COMP_S3_PROBLEM_PATH}
+
+if [[ "${COMP_S3_PROBLEM_PATH}" == *".xz" ]];
+then
+  aws s3 cp s3://${S3_BKT}/${COMP_S3_PROBLEM_PATH} test.cnf.xz
+  unxz test.cnf.xz
+else
+  aws s3 cp s3://${S3_BKT}/${COMP_S3_PROBLEM_PATH} test.cnf
+fi
 
 # Set child by default switch to main if on main node container
 NODE_TYPE="child"
@@ -28,7 +39,7 @@ wait_for_nodes () {
   availablecores=$(nproc)
   log "master details -> $ip:$availablecores"
   log "main IP: $ip"
-  AWS_BATCH_JOB_NUM_NODES=2
+
 #  echo "$ip slots=$availablecores" >> $HOST_FILE_PATH
   echo "$ip" >> $HOST_FILE_PATH
   lines=$(ls -dq /tmp/hostfile* | wc -l)
@@ -45,7 +56,6 @@ wait_for_nodes () {
   # All of the hosts report their IP and number of processors. Combine all these
   # into one file with the following script:
   python3 supervised-scripts/make_combined_hostfile.py ${ip}
-  echo "combined_hostfile:"
   cat supervised-scripts/combined_hostfile
 
   time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile run_aws_osmt.sh "regression/QF_UF/iso_brn029_simplified_1b.smt2"
