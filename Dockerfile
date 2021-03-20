@@ -18,9 +18,9 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 EXPOSE 22
 
 ################
-FROM ubuntu:20.04 AS builder
+FROM osmpt_base AS builder
 ENV CMAKE_BUILD_TYPE Release
-#ENV INSTALL /home/opensmt-1
+ENV INSTALL /home/opensmt-1
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y apt-utils make cmake \
          build-essential libgmp-dev bison flex libubsan0 \
@@ -29,7 +29,7 @@ RUN  git clone https://github.com/MasoudAsadzade/opensmt-1.git --branch local --
 RUN cd opensmt-1 && sh ./awcCloudTrack/awsRunBatch/make_opensmt.sh
 #RUN sleep 9000000
 ################
-FROM osmpt_base
+FROM builder
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt install -y awscli python3 mpi
 COPY --from=builder opensmt-1 opensmt-1
@@ -46,5 +46,5 @@ RUN chmod 755 run_aws_osmt.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opsmt/.ssh/sshd_config"]
 #CMD supervised-scripts/mpi-run.sh
-RUN sleep 9000000
+#RUN sleep 9000000
 CMD ["./opensmt-1/build/src/bin/opensmt", "NEQ004_size4.smt2"]
