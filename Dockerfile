@@ -41,6 +41,6 @@ RUN chmod 755 supervised-scripts/mpi-run.sh
 RUN chmod 755 run_aws_osmt.sh
 USER osmt
 CMD ["/usr/sbin/sshd", "-D", "-f", "/home/opsmt/.ssh/sshd_config"]
-#CMD supervised-scripts/mpi-run.sh
-RUN sleep 9000000
+CMD supervised-scripts/mpi-run.sh
+#RUN sleep 9000000
 #CMD ["./opensmt-1/build/src/bin/opensmt", "NEQ004_size4.smt2"]
