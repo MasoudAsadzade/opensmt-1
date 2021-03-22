@@ -7,7 +7,7 @@ fi
 
 for folder in "$1"/*; do
     for file in "$folder"/*; do
-     /usr/bin/time -p  ./build/src/bin/opensmt $file
+     time ./build/src/bin/opensmt $file
      #/usr/bin/time -p ./build/src/bin/opensmt $file
     done
 done
