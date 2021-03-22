@@ -50,7 +50,6 @@ wait_for_nodes () {
 
     log "$lines out of $AWS_BATCH_JOB_NUM_NODES nodes joined, check again in 1 second"
     sleep 1
-#    lines=$(sort $HOST_FILE_PATH|uniq|wc -l)
   done
 
   # All of the hosts report their IP and number of processors. Combine all these
@@ -58,9 +57,8 @@ wait_for_nodes () {
   echo "supervised-scripts/make_combined_hostfile.py ${ip}:"
   python3 supervised-scripts/make_combined_hostfile.py ${ip}
   cat supervised-scripts/combined_hostfile
-  echo "reachhere-s"
-  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile --app run_aws_osmt.sh "opensmt-1/hpcClusterBenchs"
-  echo "reachhere-e"
+
+  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile --app run_aws_osmt.sh "opensmt-1/testBenchs"
   #time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile run_aws_osmt.sh "hpcClusterBenchs"
 }
 
@@ -68,7 +66,6 @@ wait_for_nodes () {
 report_to_master () {
   # get own ip
   ip=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
-
 
   availablecores=$(nproc)
 
@@ -79,7 +76,8 @@ report_to_master () {
   ping -c 3 ${AWS_BATCH_JOB_MAIN_NODE_PRIVATE_IPV4_ADDRESS}
   until scp $HOST_FILE_PATH${AWS_BATCH_JOB_NODE_INDEX} ${AWS_BATCH_JOB_MAIN_NODE_PRIVATE_IPV4_ADDRESS}:$HOST_FILE_PATH${AWS_BATCH_JOB_NODE_INDEX}
   do
-    echo "Sleeping 5 seconds and trying again"
+    echo "Sleeping 2 seconds and trying again"
+    sleep 2
   done
   log "done! goodbye"
   ps -ef | grep sshd
