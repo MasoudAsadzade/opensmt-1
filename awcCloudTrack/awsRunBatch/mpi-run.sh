@@ -57,8 +57,8 @@ wait_for_nodes () {
   echo "supervised-scripts/make_combined_hostfile.py ${ip}:"
   python3 supervised-scripts/make_combined_hostfile.py ${ip}
   cat supervised-scripts/combined_hostfile
-
-  time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile --app run_aws_osmt.sh "opensmt-1/testBenchs"
+  run_aws_osmt.sh "opensmt-1/testBenchs"
+  #time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile --app run_aws_osmt.sh "opensmt-1/testBenchs"
   #time mpirun --mca btl_tcp_if_include eth0 --allow-run-as-root -np ${AWS_BATCH_JOB_NUM_NODES} --hostfile supervised-scripts/combined_hostfile run_aws_osmt.sh "hpcClusterBenchs"
 }
 
