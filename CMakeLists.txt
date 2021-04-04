@@ -118,19 +118,7 @@ endif()
 
 add_subdirectory(${CMAKE_SOURCE_DIR})
 
-################# TESTING #############################################
-option(PACKAGE_TESTS "Build the tests" ON)
-if(PACKAGE_TESTS)
-    if (NOT BUILD_STATIC_LIBS)
-      message(FATAL_ERROR "Building tests requires static libraries")
-    endif()
-    if(CMAKE_VERSION VERSION_LESS 3.11)
-        MESSAGE(WARNING "Minimum CMAKE version for building tests is 3.11")
-    else(CMAKE_VERSION VERSION_LESS 3.11)
-        enable_testing()
-        add_subdirectory(${PROJECT_SOURCE_DIR}/test)
-    endif(CMAKE_VERSION VERSION_LESS 3.11)
-endif()
+
 #########################################################################
 install(FILES ${CMAKE_SOURCE_DIR}/opensmt2.h DESTINATION ${INSTALL_HEADERS_DIR})
 
